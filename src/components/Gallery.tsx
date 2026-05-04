@@ -105,7 +105,10 @@ function BouquetCard({
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const isFloating = FLOAT_INDICES.includes(index);
-  const waUrl = `https://wa.me/919877310855?text=${encodeURIComponent(bouquet.waMsg)}`;
+  const waUrl = `https://wa.me/919877310855?text=${encodeURIComponent(
+    `Hi PureLuvWrap! 🌸 I'm interested in ordering the ${bouquet.category} Bouquet. Please share more details.`
+  )}`;
+
 
   return (
     <motion.article
