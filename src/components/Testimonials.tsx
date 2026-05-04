@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 

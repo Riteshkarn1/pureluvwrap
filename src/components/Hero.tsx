@@ -42,7 +42,7 @@ function HeadlineLine({
     <div className="overflow-hidden leading-[1.08]">
       <motion.span
         className={`block font-playfair font-bold ${italic ? "italic" : ""} ${colorClass} ${mobileSize} ${tabletSize} ${desktopSize}`}
-        initial={reduced ? { opacity: 0 } : { clipPath: "inset(0 0 100% 0)", opacity: 0 }}
+        initial={reduced ? { opacity: 0, y: 0 } : { clipPath: "inset(0 0 100% 0)", opacity: 0 }}
         animate={reduced ? { opacity: 1 } : { clipPath: "inset(0 0 0% 0)", opacity: 1 }}
         transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
       >
@@ -248,3 +248,4 @@ export default function Hero() {
     </section>
   );
 }
+

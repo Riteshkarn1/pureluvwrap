@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 
