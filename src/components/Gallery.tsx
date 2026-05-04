@@ -121,6 +121,7 @@ function BouquetCard({
       className="group relative overflow-hidden rounded-2xl bg-white shadow-card hover:shadow-card-hover cursor-pointer gallery-card"
       style={{ height }}
       aria-label={`${bouquet.category} bouquet`}
+      onClick={() => window.open(waUrl, "_blank", "noopener,noreferrer")}
     >
       {/* ─── Image — floats on selected cards ──── */}
       <motion.div
@@ -155,7 +156,7 @@ function BouquetCard({
       </div>
 
       {/* ─── Hover overlay ───────────────────────── */}
-      <div className="absolute inset-0 flex flex-col items-center justify-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-[rgba(44,44,44,0.88)] via-[rgba(44,44,44,0.35)] to-transparent group-hover:backdrop-blur-[2px]">
+      <div className="absolute inset-0 flex flex-col items-center justify-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-[rgba(44,44,44,0.88)] via-[rgba(44,44,44,0.35)] to-transparent group-hover:backdrop-blur-[2px] z-10">
         <p className="text-white/80 font-dm text-sm text-center mb-4 translate-y-2 group-hover:translate-y-0 transition-transform duration-400">
           {bouquet.description}
         </p>
@@ -163,16 +164,15 @@ function BouquetCard({
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          id={`gallery-order-${bouquet.id}`}
-          aria-label={`Order ${bouquet.category} bouquet via WhatsApp`}
-          className="btn-shimmer inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand-rose text-white font-dm font-medium text-sm hover:bg-brand-burgundy transition-colors duration-300 scale-90 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-300 delay-75"
+          onClick={(e) => e.stopPropagation()}
+          className="btn-shimmer inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand-rose text-white font-dm font-medium text-sm hover:bg-brand-burgundy transition-colors duration-300 scale-90 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-300 delay-75 pointer-events-auto"
         >
           Order This ✦
         </a>
       </div>
 
       {/* Card footer shown at rest */}
-      <div className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-white transition-opacity duration-500 group-hover:opacity-0">
+      <div className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-white transition-opacity duration-500 group-hover:opacity-0 z-10">
         <h3 className="font-playfair text-base font-semibold text-brand-text">{bouquet.category} Bouquet</h3>
         <p className="font-dm text-xs text-brand-muted mt-0.5">{bouquet.description}</p>
       </div>
