@@ -32,23 +32,21 @@ function ArrowIcon() {
 }
 
 function HeadlineLine({
-  text, italic, colorClass, mobileSize, tabletSize, desktopSize, delay, reduced,
+  text, italic, colorClass, mobileSize, tabletSize, desktopSize, delay,
 }: {
   text: string; italic: boolean; colorClass: string;
   mobileSize: string; tabletSize: string; desktopSize: string;
-  delay: number; reduced: boolean;
+  delay: number;
 }) {
   return (
-    <div className="overflow-hidden leading-[1.08]">
-      <motion.span
-        className={`block font-playfair font-bold ${italic ? "italic" : ""} ${colorClass} ${mobileSize} ${tabletSize} ${desktopSize}`}
-        initial={reduced ? { opacity: 0, y: 0 } : { clipPath: "inset(0 0 100% 0)", opacity: 0 }}
-        animate={reduced ? { opacity: 1 } : { clipPath: "inset(0 0 0% 0)", opacity: 1 }}
-        transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {text}
-      </motion.span>
-    </div>
+    <motion.span
+      className={`block font-playfair font-bold leading-[1.08] ${italic ? "italic" : ""} ${colorClass} ${mobileSize} ${tabletSize} ${desktopSize}`}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: "easeOut", delay }}
+    >
+      {text}
+    </motion.span>
   );
 }
 
@@ -121,7 +119,6 @@ export default function Hero() {
               tabletSize={HEADLINE_SIZES[i].tablet}
               desktopSize={HEADLINE_SIZES[i].desktop}
               delay={0.4 + i * 0.15}
-              reduced={reduced}
             />
           ))}
         </div>

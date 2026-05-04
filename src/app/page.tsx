@@ -1,5 +1,5 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
 import USPStrip from "@/components/USPStrip";
 import Gallery from "@/components/Gallery";
 import OrderForm from "@/components/OrderForm";
@@ -7,6 +7,12 @@ import Testimonials from "@/components/Testimonials";
 import About from "@/components/About";
 import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+
+/**
+ * Hero is loaded client-side only (ssr: false) to prevent SSR/hydration
+ * mismatches with Framer Motion animations (opacity, transforms) on Vercel.
+ */
+const Hero = dynamic(() => import("@/components/Hero"), { ssr: false });
 
 /**
  * PureLuvWrap — Home Page
@@ -19,7 +25,7 @@ export default function Home() {
       {/* Sticky Navbar */}
       <Navbar />
 
-      {/* 1. Hero — cinematic parallax, word-by-word headline, marquee */}
+      {/* 1. Hero — cinematic split-screen, staggered headline, marquee */}
       <Hero />
 
       {/* 2. USP Strip — editorial alternating row list */}
