@@ -2,26 +2,149 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─── Smooth Scroll ───────────────────────────────── */
+html { scroll-behavior: smooth; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─── Prevent horizontal overflow at all breakpoints ── */
+html, body { overflow-x: hidden; max-width: 100%; }
+
+/* ─── Scroll margin for anchors (below fixed navbar) ── */
+#home, #gallery, #order, #about {
+  scroll-margin-top: 64px;
+}
+@media (min-width: 1024px) {
+  #home, #gallery, #order, #about {
+    scroll-margin-top: 80px;
   }
 }
 
+/* ─── Hide scrollbar utility (filter tabs on mobile) ── */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Gallery: flat equal-height cards on mobile ──── */
+@media (max-width: 767px) {
+  .gallery-card { height: 300px !important; }
+}
+
+
+/* ─── Selection Color ─────────────────────────────── */
+::selection { background-color: #F2D5D7; color: #2C2C2C; }
+
+/* ─── Custom Scrollbar ────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #FAF7F4; }
+::-webkit-scrollbar-thumb { background: #C9727A; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #8B5E52; }
+
+/* ─── Base Styles ─────────────────────────────────── */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FAF7F4;
+  color: #2C2C2C;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* ─── Reduced Motion ──────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* ─── Gradient Text ───────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #C9727A 0%, #8B5E52 50%, #C8A876 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Frosted Glass ──────────────────────────────── */
+.glass {
+  background: rgba(250, 247, 244, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── Film Grain Overlay ──────────────────────────── */
+.grain-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* ─── Button Shimmer ──────────────────────────────── */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 70%
+  );
+  transform: skewX(-15deg);
+  pointer-events: none;
+}
+.btn-shimmer:hover::after {
+  animation: shimmer-sweep 0.55s ease forwards;
+}
+@keyframes shimmer-sweep {
+  0%   { left: -100%; }
+  100% { left: 160%; }
+}
+
+/* ─── Marquee Strip ───────────────────────────────── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+/* ─── Clip-path Heading Reveal helper ────────────── */
+.reveal-clip {
+  overflow: hidden;
+  display: block;
+}
+
+/* ─── Pulse button animation ─────────────────────── */
+@keyframes pulse-btn {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37,211,102,0.4); }
+  50%       { transform: scale(1.04); box-shadow: 0 0 0 10px rgba(37,211,102,0); }
+}
+.pulse-wa { animation: pulse-btn 3s ease-in-out infinite; }
+
+/* ─── Ambient gradient shift ─────────────────────── */
+@keyframes ambient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.ambient-bg {
+  background: radial-gradient(ellipse at 20% 50%, #5a1f26 0%, #2a0d10 40%, #1a0a0c 100%);
+  background-size: 200% 200%;
+  animation: ambient-shift 12s ease infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-bg { animation: none; }
 }
