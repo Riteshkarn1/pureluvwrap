@@ -56,14 +56,14 @@ const collectionsData = [
   },
 ];
 
-const WA_NUMBER = "919877310855";
+const WA_NUMBER = "919876606759";
 
 function CollectionCard({ item, index }: { item: typeof collectionsData[0]; index: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
-    `Hi PureLuvWrap! 🌸 I'm interested in ${item.name}. Please share more details.`
+    `Hi PureLuvWrap! 🌸 I'm interested in your ${item.name}. Please share more details and pricing.`
   )}`;
 
   return (

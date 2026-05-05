@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const WA_LINK =
-  "https://wa.me/919877310855?text=Hi%21%20I%27d%20like%20to%20order%20a%20bouquet%20%F0%9F%8C%B8";
+  "https://wa.me/919876606759?text=Hi%20PureLuvWrap!%20%F0%9F%8C%B8%20I'd%20like%20to%20know%20more%20about%20your%20handcrafted%20gifts.";
 
 export default function FloatingWhatsApp() {
   const [showTooltip, setShowTooltip] = useState(false);

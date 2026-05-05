@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion, Variants } from "framer-motion";
 
 const WA_LINK =
-  "https://wa.me/919877310855?text=Hi%21%20I%27d%20like%20to%20place%20an%20order%20%F0%9F%8E%81";
+  "https://wa.me/919876606759?text=Hi%20PureLuvWrap!%20%F0%9F%8C%B8%20I'd%20like%20to%20place%20an%20order.%20Please%20share%20more%20details.";
 
 const MARQUEE_TEXT =
   "Handcrafted with Love  ✦  Fresh Daily Blooms  ✦  DELIVERED IN 2–3 DAYS  ✦  Custom Orders Welcome  ✦  Jalandhar's Favourite Gifts  ✦  ";
