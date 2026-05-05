@@ -1,6 +1,6 @@
 "use client";
 
-const WA_LINK = "https://wa.me/919876606759?text=Hi%20PureLuvWrap!%20%F0%9F%8C%B8%20I'd%20like%20to%20place%20a%20custom%20order.%20Please%20help%20me%20out!";
+const WA_LINK = "https://wa.me/919877310855?text=Hi%20PureLuvWrap!%20%F0%9F%8C%B8%20I'd%20like%20to%20place%20a%20custom%20order.%20Please%20help%20me%20out!";
 const IG_LINK = "https://instagram.com/pureluvwrap7";
 
 const quickLinks = [
@@ -172,4 +172,5 @@ export default function Footer() {
     </footer>
   );
 }
+
 

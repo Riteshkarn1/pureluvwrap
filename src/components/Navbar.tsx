@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
-const WA_LINK = "https://wa.me/919876606759?text=Hi%20PureLuvWrap!%20%F0%9F%8C%B8%20I'd%20like%20to%20know%20more%20about%20your%20handcrafted%20gifts.";
+const WA_LINK = "https://wa.me/919877310855?text=Hi%20PureLuvWrap!%20%F0%9F%8C%B8%20I'd%20like%20to%20know%20more%20about%20your%20handcrafted%20gifts.";
 
 /* ─── Floral SVG Icon ───────────────────────────────── */
 function FloralIcon({ size = 24 }: { size?: number }) {
@@ -240,4 +240,5 @@ export default function Navbar() {
     </>
   );
 }
+
 
