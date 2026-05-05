@@ -36,7 +36,7 @@ function WAIcon({ size = 16 }: { size?: number }) {
 /* ─── Nav links ─────────────────────────────────────── */
 const navLinks = [
   { href: "#home",    label: "Home" },
-  { href: "#gallery", label: "Gallery" },
+  { href: "#collections", label: "Collections" },
   { href: "#about",   label: "About" },
   { href: "#order",   label: "Custom Order" },
 ];

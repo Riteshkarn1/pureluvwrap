@@ -11,8 +11,11 @@ const WA_NUMBER = "919877310855";
 const occasions = [
   "Birthday",
   "Anniversary",
+  "Valentine's Day",
+  "Farewell",
   "Wedding",
   "Corporate",
+  "Friendship Day",
   "Just Because",
   "Other",
 ];
@@ -32,11 +35,18 @@ const flowerTypes = [
 ];
 
 const bouquetTypes = [
-  "🎀 Ribbon Bouquet",
-  "📄 Paper Bouquet",
-  "🪡 Pipe Cleaner Bouquet",
-  "🧻 Tissue Paper Bouquet",
-  "✏️ Other (I'll describe in my message)",
+  "Ribbon Bouquet",
+  "Paper Bouquet",
+  "Pipe Cleaner Bouquet",
+  "Tissue Paper Bouquet",
+  "Photo Bouquet (with polaroids)",
+  "Figurine / Clay Bouquet",
+  "Candy Bouquet",
+  "Gift Box / Hamper",
+  "Custom Keychain",
+  "Photo Frame",
+  "Crochet Gift",
+  "Other (I'll describe in my message)",
 ];
 
 type FormData = {

@@ -1,18 +1,79 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, Variants } from "framer-motion";
 
 const WA_LINK =
-  "https://wa.me/919877310855?text=Hi%21%20I%27d%20like%20to%20order%20a%20bouquet%20%F0%9F%8C%B8";
+  "https://wa.me/919876606759?text=Hi%21%20I%27d%20like%20to%20place%20an%20order%20%F0%9F%8E%81";
 
 const MARQUEE_TEXT =
-  "Handcrafted with Love  ✦  Fresh Daily Blooms  ✦  Same-Day Delivery  ✦  Custom Orders Welcome  ✦  Jalandhar's Favourite Bouquets  ✦  ";
+  "Handcrafted with Love  ✦  Fresh Daily Blooms  ✦  Same-Day Delivery  ✦  Custom Orders Welcome  ✦  Jalandhar's Favourite Gifts  ✦  ";
 
-const HEADLINE = [
-  { text: "Every Petal,", italic: false, colorClass: "text-[#2C2C2C]" },
-  { text: "Wrapped in",   italic: true,  colorClass: "text-[#2C2C2C]" },
-  { text: "Love.",        italic: true,  colorClass: "text-[#C9727A]" },
+const slides = [
+  {
+    id: "bouquets",
+    eyebrow: "HANDCRAFTED BOUQUETS",
+    heading1: "Every Petal,",
+    heading2: "Wrapped in",
+    heading3: "Love.",
+    subtext: "Artificial & natural bouquets for every occasion",
+    image: "/hero-bouquets.png",
+  },
+  {
+    id: "keychains",
+    eyebrow: "MINIATURE KEYCHAINS",
+    heading1: "Tiny Blooms,",
+    heading2: "Big",
+    heading3: "Feelings.",
+    subtext: "Handcrafted crochet, pipe cleaner & clay flower keychains",
+    image: "/hero-keychains.png",
+  },
+  {
+    id: "giftboxes",
+    eyebrow: "BIRTHDAY GIFT BOXES",
+    heading1: "Open It &",
+    heading2: "Feel the",
+    heading3: "Magic.",
+    subtext: "Custom birthday hampers with fairy lights, photos & surprises",
+    image: "/hero-giftboxes.png",
+  },
+  {
+    id: "photobouquets",
+    eyebrow: "PHOTO BOUQUETS",
+    heading1: "Your Memories,",
+    heading2: "Beautifully",
+    heading3: "Wrapped.",
+    subtext: "Dried flowers + polaroid photos — a gift they'll keep forever",
+    image: "/hero-photobouquets.png",
+  },
+  {
+    id: "figurines",
+    eyebrow: "FIGURINE BOUQUETS",
+    heading1: "Cute, Quirky",
+    heading2: "& Completely",
+    heading3: "Unique.",
+    subtext: "Clay character bouquets & candy bouquets — unlike anything else",
+    image: "/hero-figurines.png",
+  },
+  {
+    id: "photoframes",
+    eyebrow: "CUSTOM PHOTO FRAMES",
+    heading1: "A Moment",
+    heading2: "Framed",
+    heading3: "Forever.",
+    subtext: "Personalised birthday calendar frames with your photos & messages",
+    image: "/hero-photoframes.png",
+  },
+  {
+    id: "crochet",
+    eyebrow: "CROCHET GIFTS",
+    heading1: "Stitched with",
+    heading2: "Every Bit",
+    heading3: "of Love.",
+    subtext: "Handmade crochet cake keychains & greeting card sets",
+    image: "/hero-crochet.png",
+  },
 ];
 
 function WAIcon() {
@@ -23,6 +84,7 @@ function WAIcon() {
     </svg>
   );
 }
+
 function ArrowIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -31,161 +93,222 @@ function ArrowIcon() {
   );
 }
 
-function HeadlineLine({
-  text, italic, colorClass, mobileSize, tabletSize, desktopSize, delay,
-}: {
-  text: string; italic: boolean; colorClass: string;
-  mobileSize: string; tabletSize: string; desktopSize: string;
-  delay: number;
-}) {
-  return (
-    <motion.span
-      className={`block font-playfair font-bold leading-[1.08] ${italic ? "italic" : ""} ${colorClass} ${mobileSize} ${tabletSize} ${desktopSize}`}
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: "easeOut", delay }}
-    >
-      {text}
-    </motion.span>
-  );
-}
-
-const HEADLINE_SIZES = [
-  { mobile: "text-[42px]", tablet: "md:text-[52px]", desktop: "lg:text-[72px]" },
-  { mobile: "text-[42px]", tablet: "md:text-[52px]", desktop: "lg:text-[72px]" },
-  { mobile: "text-[48px]", tablet: "md:text-[58px]", desktop: "lg:text-[84px]" },
-];
-
 export default function Hero() {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const reduced = useReducedMotion() ?? false;
 
-  const scrollToGallery = (e: React.MouseEvent) => {
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+
+  const scrollToCollections = (e: React.MouseEvent) => {
     e.preventDefault();
-    document.querySelector("#gallery")?.scrollIntoView({ behavior: "smooth" });
+    document.querySelector("#collections")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const fadeUp = (delay: number) => ({
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] as const },
-  });
+  const slide = slides[currentIndex];
 
-  const fadeLeft = (delay: number) => ({
-    initial: { opacity: 0, x: reduced ? 0 : -18 },
-    animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
-  });
+  const fadeVariant: Variants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    exit: { opacity: 0, y: -10, transition: { duration: 0.4, ease: "easeIn" } }
+  };
 
   return (
     <section
       id="home"
-      className="relative w-full min-h-screen flex flex-col-reverse md:flex-row overflow-hidden"
+      className="relative w-full min-h-screen flex flex-col md:flex-row overflow-hidden"
       aria-label="Hero section"
     >
       {/* ══════════════════════════
-          LEFT — Content panel
+          TOP / RIGHT — Image (Mobile stacks image on top)
       ══════════════════════════ */}
       <div
         className="
-          relative flex flex-col justify-center
-          w-full md:w-[55%] lg:w-1/2
-          bg-[#FAF7F4]
-          px-6 md:px-12 lg:pl-20 lg:pr-12
-          pt-10 pb-0 md:pt-0 md:pb-0
-          min-h-0 md:min-h-screen
-          scroll-margin-top-[64px]
+          relative overflow-hidden
+          w-full md:w-[45%] lg:w-1/2
+          h-[55vw] min-h-[300px] md:h-auto md:min-h-screen
+          order-1 md:order-2
         "
       >
-        {/* 1 — Eyebrow */}
-        <motion.div className="flex items-center gap-3 mb-5 md:mb-6" {...fadeLeft(0.2)}>
-          <span className="flex-shrink-0 w-8 md:w-10 h-[1.5px] bg-[#C9727A]" />
-          <span
-            className="font-dm uppercase text-[#C9727A]"
-            style={{ fontSize: "10px", letterSpacing: "0.2em" }}
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={slide.id}
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
           >
-            Handcrafted in Jalandhar, Punjab
-          </span>
-        </motion.div>
-
-        {/* 2 — Headline */}
-        <div className="flex flex-col gap-0 mb-5 md:mb-7">
-          {HEADLINE.map((line, i) => (
-            <HeadlineLine
-              key={line.text}
-              text={line.text}
-              italic={line.italic}
-              colorClass={line.colorClass}
-              mobileSize={HEADLINE_SIZES[i].mobile}
-              tabletSize={HEADLINE_SIZES[i].tablet}
-              desktopSize={HEADLINE_SIZES[i].desktop}
-              delay={0.4 + i * 0.15}
+            <Image
+              src={slide.image}
+              alt={slide.heading1 + slide.heading2}
+              fill
+              priority
+              sizes="(max-width: 767px) 100vw, (max-width: 1023px) 45vw, 50vw"
+              className="object-cover object-center"
+              quality={90}
             />
-          ))}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Soft left-edge bleed — desktop only */}
+        <div
+          className="absolute inset-y-0 left-0 w-[12%] pointer-events-none z-10 hidden md:block"
+          style={{ background: "linear-gradient(to right, #FAF7F4 0%, transparent 100%)" }}
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* ══════════════════════════
+          BOTTOM / LEFT — Content panel
+      ══════════════════════════ */}
+      <div
+        className="
+          relative flex flex-col
+          w-full md:w-[55%] lg:w-1/2
+          bg-[#FAF7F4]
+          order-2 md:order-1
+          min-h-0 md:min-h-screen
+        "
+      >
+        {/* Main Content Area (centered vertically) */}
+        <div className="flex-1 flex flex-col justify-center px-6 md:px-12 lg:pl-20 lg:pr-12 pt-10 pb-8 md:pt-0 md:pb-0 scroll-margin-top-[64px]">
+          
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={slide.id}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={fadeVariant}
+            >
+              {/* 1 — Eyebrow */}
+              <div className="flex items-center gap-3 mb-5 md:mb-6">
+                <span className="flex-shrink-0 w-8 md:w-10 h-[1.5px] bg-[#C9727A]" />
+                <span
+                  className="font-dm uppercase text-[#C9727A]"
+                  style={{ fontSize: "10px", letterSpacing: "0.2em" }}
+                >
+                  {slide.eyebrow}
+                </span>
+              </div>
+
+              {/* 2 — Headline */}
+              <div className="flex flex-col gap-0 mb-5 md:mb-7">
+                <span className="block font-playfair font-bold leading-[1.08] text-[#2C2C2C] text-[42px] md:text-[52px] lg:text-[72px]">
+                  {slide.heading1}
+                </span>
+                <span className="block font-playfair font-bold leading-[1.08] italic text-[#2C2C2C] text-[42px] md:text-[52px] lg:text-[72px]">
+                  {slide.heading2}
+                </span>
+                <span className="block font-playfair font-bold leading-[1.08] italic text-[#C9727A] text-[48px] md:text-[58px] lg:text-[84px]">
+                  {slide.heading3}
+                </span>
+              </div>
+
+              {/* 3 — Subtext */}
+              <p
+                className="font-dm text-[#6B6B6B] leading-[1.6] mb-7 md:mb-9 max-w-full md:max-w-[320px] lg:max-w-[380px]"
+                style={{ fontSize: "15px" }}
+              >
+                {slide.subtext}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* 4 — Static CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-8 md:mb-12">
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-shimmer inline-flex items-center justify-center gap-2.5 rounded-full bg-[#C9727A] text-white font-dm font-medium text-[15px] hover:bg-[#8B5E52] transition-colors duration-300 hover:shadow-rose hover:scale-[1.03] active:scale-100 w-full sm:w-auto min-h-[52px]"
+              style={{ padding: "14px 28px" }}
+            >
+              <WAIcon />
+              Order on WhatsApp
+            </a>
+            <a
+              href="#collections"
+              onClick={scrollToCollections}
+              className="inline-flex items-center justify-center gap-2 rounded-full font-dm font-medium text-[15px] border-[1.5px] border-[#2C2C2C] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-white transition-all duration-300 w-full sm:w-auto min-h-[52px]"
+              style={{ padding: "14px 28px" }}
+            >
+              View Collections
+              <ArrowIcon />
+            </a>
+          </div>
+
+          {/* 5 — Static Social proof */}
+          <div className="flex items-center gap-3 mb-6 md:mb-0">
+            <div className="flex -space-x-2.5" aria-hidden="true">
+              {["A", "P", "S"].map((letter, i) => (
+                <div
+                  key={i}
+                  className="w-8 h-8 rounded-full border-2 border-[#FAF7F4] flex items-center justify-center font-dm font-bold text-[11px] text-white"
+                  style={{ backgroundColor: i === 0 ? "#C9727A" : i === 1 ? "#8B5E52" : "#C8A876" }}
+                >
+                  {letter}
+                </div>
+              ))}
+            </div>
+            <p className="font-dm text-[#6B6B6B]" style={{ fontSize: "12px" }}>
+              <span className="text-[#2C2C2C] font-semibold">200+</span> happy customers this month
+            </p>
+          </div>
         </div>
 
-        {/* 3 — Subtext */}
-        <motion.p
-          className="font-dm text-[#6B6B6B] leading-[1.6] mb-7 md:mb-9 max-w-full md:max-w-[320px] lg:max-w-[380px]"
-          style={{ fontSize: "15px" }}
-          {...fadeUp(0.9)}
-        >
-          Handcrafted bouquets for every occasion — delivered across{" "}
-          <strong className="text-[#2C2C2C] font-medium">Jalandhar & Punjab</strong>.
-        </motion.p>
-
-        {/* 4 — CTAs */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-8 md:mb-12"
-          {...fadeUp(1.1)}
-        >
-          <a
-            href={WA_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            id="hero-whatsapp-cta"
-            className="btn-shimmer inline-flex items-center justify-center gap-2.5 rounded-full bg-[#C9727A] text-white font-dm font-medium text-[15px] hover:bg-[#8B5E52] transition-colors duration-300 hover:shadow-rose hover:scale-[1.03] active:scale-100 w-full sm:w-auto min-h-[52px]"
-            style={{ padding: "14px 28px" }}
-          >
-            <WAIcon />
-            Order on WhatsApp
-          </a>
-          <a
-            href="#gallery"
-            onClick={scrollToGallery}
-            id="hero-gallery-cta"
-            className="inline-flex items-center justify-center gap-2 rounded-full font-dm font-medium text-[15px] border-[1.5px] border-[#2C2C2C] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-white transition-all duration-300 w-full sm:w-auto min-h-[52px]"
-            style={{ padding: "14px 28px" }}
-          >
-            View Our Gallery
-            <ArrowIcon />
-          </a>
-        </motion.div>
-
-        {/* 5 — Social proof */}
-        <motion.div className="flex items-center gap-3 mb-6 md:mb-0" {...fadeUp(1.3)}>
-          <div className="flex -space-x-2.5" aria-hidden="true">
-            {["A", "P", "S"].map((letter, i) => (
-              <div
-                key={i}
-                className="w-8 h-8 rounded-full border-2 border-[#FAF7F4] flex items-center justify-center font-dm font-bold text-[11px] text-white"
-                style={{ backgroundColor: i === 0 ? "#C9727A" : i === 1 ? "#8B5E52" : "#C8A876" }}
-              >
-                {letter}
-              </div>
+        {/* 6 — Slide Navigation Controls (Positioned at bottom above marquee) */}
+        <div className="flex items-center justify-between px-6 md:px-12 lg:pl-20 lg:pr-12 pb-6 md:pb-16 mt-auto">
+          {/* Dots */}
+          <div className="flex items-center gap-2">
+            {slides.map((s, idx) => (
+              <button
+                key={s.id}
+                onClick={() => setCurrentIndex(idx)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  currentIndex === idx ? "w-6 bg-[#C9727A]" : "bg-gray-300 hover:bg-gray-400"
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
             ))}
           </div>
-          <p className="font-dm text-[#6B6B6B]" style={{ fontSize: "12px" }}>
-            <span className="text-[#2C2C2C] font-semibold">200+</span> happy customers this month
-          </p>
-        </motion.div>
 
-        {/* 6 — Marquee strip */}
-        {/* On desktop: pinned absolute bottom. On mobile: inline after social proof */}
+          {/* Arrows */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={prevSlide}
+              className="w-10 h-10 rounded-full border border-[#2C2C2C]/20 flex items-center justify-center text-[#2C2C2C] hover:bg-[#2C2C2C]/5 transition-colors"
+              aria-label="Previous slide"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={nextSlide}
+              className="w-10 h-10 rounded-full border border-[#2C2C2C]/20 flex items-center justify-center text-[#2C2C2C] hover:bg-[#2C2C2C]/5 transition-colors"
+              aria-label="Next slide"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* 7 — Marquee strip */}
         <div
           className="
-            mt-6 md:mt-0
+            w-full h-10 bg-[#2C2C2C] flex items-center overflow-hidden
             md:absolute md:bottom-0 md:left-0 md:right-0
-            h-10 bg-[#2C2C2C] flex items-center overflow-hidden
           "
           aria-hidden="true"
         >
@@ -205,44 +328,8 @@ export default function Hero() {
             ))}
           </motion.div>
         </div>
-      </div>
 
-      {/* ══════════════════════════
-          RIGHT — Image
-      ══════════════════════════ */}
-      <div
-        className="
-          relative overflow-hidden
-          w-full md:w-[45%] lg:w-1/2
-          h-[55vw] min-h-[220px] md:h-auto md:min-h-screen
-        "
-      >
-        <motion.div
-          className="absolute inset-0"
-          initial={{ scale: reduced ? 1 : 1.05 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          style={{ willChange: "transform" }}
-        >
-          <Image
-            src="/hero-bouquet.png"
-            alt="Luxury handcrafted bouquet with pink roses and white blooms"
-            fill
-            priority
-            sizes="(max-width: 767px) 100vw, (max-width: 1023px) 45vw, 50vw"
-            className="object-cover object-center"
-            quality={90}
-          />
-        </motion.div>
-
-        {/* Soft left-edge bleed — desktop only */}
-        <div
-          className="absolute inset-y-0 left-0 w-[12%] pointer-events-none z-10 hidden md:block"
-          style={{ background: "linear-gradient(to right, #FAF7F4 0%, transparent 100%)" }}
-          aria-hidden="true"
-        />
       </div>
     </section>
   );
 }
-

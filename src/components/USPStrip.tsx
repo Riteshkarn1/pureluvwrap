@@ -8,25 +8,25 @@ const usps = [
   {
     number: "01",
     title: "Handcrafted with Love",
-    body: "Every bouquet is arranged by hand — no shortcuts, no machines. Just artisan care from stem to ribbon.",
+    body: "Every bouquet, keychain, and gift box is made by hand — no machines, no shortcuts. Just pure artisan care.",
     from: -60,
   },
   {
     number: "02",
-    title: "Same-Day Delivery",
-    body: "Order by noon and receive your fresh bouquet the very same day — anywhere across Jalandhar.",
+    title: "Fully Customisable",
+    body: "Tell us your vision — names, colours, photos, themes. We bring your exact idea to life.",
     from: 60,
   },
   {
     number: "03",
-    title: "Fresh Flowers, Always",
-    body: "We source the freshest blooms daily. Your bouquet is made-to-order, never pre-made or sitting on a shelf.",
+    title: "Fresh & Unique Designs",
+    body: "From pipe cleaner bouquets to clay figurines — our designs are one-of-a-kind and always on-trend.",
     from: -60,
   },
   {
     number: "04",
-    title: "Custom Orders Welcome",
-    body: "Have a specific vision? We love bringing your ideas to life. Just describe it and we'll craft it.",
+    title: "Fast Delivery in Jalandhar",
+    body: "Order by noon and receive your handcrafted gift the same day — anywhere across Jalandhar.",
     from: 60,
   },
 ];

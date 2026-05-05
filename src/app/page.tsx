@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import USPStrip from "@/components/USPStrip";
-import Gallery from "@/components/Gallery";
+import Collections from "@/components/Collections";
 import OrderForm from "@/components/OrderForm";
 import Testimonials from "@/components/Testimonials";
 import About from "@/components/About";
@@ -31,8 +31,8 @@ export default function Home() {
       {/* 2. USP Strip — editorial alternating row list */}
       <USPStrip />
 
-      {/* 3. Gallery — masonry + filter tabs + enhanced hover */}
-      <Gallery />
+      {/* 3. Collections — asymmetric grid, no tabs */}
+      <Collections />
 
       {/* 4. Custom Order Form — WhatsApp-powered, no backend */}
       <OrderForm />

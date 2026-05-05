@@ -49,10 +49,11 @@ export default function About() {
                 someone is thinking of you.
               </p>
               <p>
-                PureLuvWrap was born in Jalandhar from a deep love of flowers and an
-                even deeper love of the moments they create. We started small — just a pair
-                of hands, a passion for beauty, and a WhatsApp number — and grew entirely
-                on the smiles our bouquets brought to people&apos;s faces.
+                PureLuvWrap was born in Jalandhar from a deep love of handcrafting beautiful 
+                things. What started as bouquets grew into something much bigger — keychains, 
+                gift boxes, photo bouquets, crochet gifts, and everything in between. Every 
+                single piece is still made by hand, with the same care and love as our very 
+                first creation.
               </p>
               <p>
                 Today, we craft dozens of arrangements every week, but each one still gets

@@ -54,7 +54,7 @@ export default function Footer() {
         </div>
         <div className="relative max-w-3xl mx-auto text-center">
           <p className="font-playfair font-bold italic text-[#FAF7F4] mb-4 leading-[1.2] tracking-tight text-[28px] sm:text-4xl lg:text-5xl">
-            Someone is waiting for their flowers.
+            Someone is waiting for their perfect gift.
           </p>
           <p className="font-dm tracking-[0.18em] uppercase mb-8 text-[13px]" style={{ color: "#C8A876" }}>
             Order in 2 minutes. Delivered with love.
@@ -87,8 +87,8 @@ export default function Footer() {
               <span className="font-playfair text-xl font-bold text-white">PureLuvWrap</span>
             </div>
             <p className="font-dm text-white/60 text-sm leading-relaxed max-w-sm">
-              Handcrafted bouquets for every occasion, made with fresh blooms and pure love.
-              Delivering joy across Jalandhar & Punjab — one petal at a time.
+              Handcrafted gifts for every occasion, made with pure love.
+              Delivering joy across Jalandhar & Punjab.
             </p>
             <p className="font-dm text-brand-rose text-sm mt-5">
               Delivering love across Jalandhar & Punjab 🌸
