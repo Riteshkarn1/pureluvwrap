@@ -76,11 +76,13 @@ function InputField({
   label,
   id,
   required,
+  error,
   children,
 }: {
   label: string;
   id: string;
   required?: boolean;
+  error?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -92,15 +94,28 @@ function InputField({
         {label}{required && <span className="text-brand-rose ml-0.5">*</span>}
       </label>
       {children}
+      {error && (
+        <span
+          className="font-dm text-[#ef4444]"
+          style={{ fontSize: "12px", marginTop: "4px" }}
+        >
+          {error}
+        </span>
+      )}
     </div>
   );
 }
 
-const inputClass =
-  "w-full px-4 py-3 rounded-xl border border-brand-rose-light bg-white font-dm text-sm text-brand-text placeholder:text-brand-muted/60 focus:outline-none focus:ring-2 focus:ring-brand-rose/40 focus:border-brand-rose transition-all duration-300";
+const getInputClass = (hasError: boolean) =>
+  `w-full px-4 py-3 rounded-xl border bg-white font-dm text-sm text-brand-text placeholder:text-brand-muted/60 focus:outline-none focus:ring-2 transition-all duration-300 ${
+    hasError
+      ? "border-[#ef4444] focus:ring-[#ef4444]/40 focus:border-[#ef4444]"
+      : "border-brand-rose-light focus:ring-brand-rose/40 focus:border-brand-rose"
+  }`;
 
 export default function OrderForm() {
   const [form, setForm] = useState<FormData>(initialForm);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -108,6 +123,9 @@ export default function OrderForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (errors[e.target.name]) {
+      setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+    }
   };
 
   const showFlowerType = [
@@ -116,21 +134,69 @@ export default function OrderForm() {
     "📸 Photo Bouquet (with Polaroids)",
   ].includes(form.bouquetType);
 
+  const stripEmojis = (str: string) => {
+    if (!str) return "";
+    return str.replace(/[^\w\s\/\(\)&\-]/g, "").trim();
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const msg = `Hi PureLuvWrap! 🌸 I'd like to place a custom order:
+    const newErrors: { [key: string]: string } = {};
 
-- Name: ${form.name}
-- Phone: ${form.phone}
-- Occasion: ${form.occasion || "Not specified"}
-- What would you like?: ${form.bouquetType || "Not specified"}
-${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""}- Preferred Colors: ${form.colors || "No preference"}
-- Budget: ${form.budget || "Not specified"}
-- Delivery Date: ${form.date || "Flexible"}
-- Message: ${form.message || "None"}`;
+    if (!form.name.trim()) {
+      newErrors.name = "Please enter your name";
+    }
 
-    const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    if (!form.phone.trim() || !/^[0-9+\s]{10,}$/.test(form.phone)) {
+      newErrors.phone = "Please enter a valid phone number";
+    }
+
+    if (!form.occasion) {
+      newErrors.occasion = "Please select an occasion";
+    }
+
+    if (!form.bouquetType) {
+      newErrors.bouquetType = "Please select what you'd like to order";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+
+      // Scroll to the first invalid field
+      const firstErrorField = Object.keys(newErrors)[0];
+      const fieldIdMap: { [key: string]: string } = {
+        name: "order-name",
+        phone: "order-phone",
+        occasion: "order-occasion",
+        bouquetType: "order-bouquet-type",
+      };
+      const el = document.getElementById(fieldIdMap[firstErrorField]);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
+    const message = [
+      "Hi PureLuvWrap!",
+      "",
+      "I'd like to place a custom order:",
+      "",
+      `Name: ${form.name.trim()}`,
+      `Phone: ${form.phone.trim()}`,
+      `Occasion: ${stripEmojis(form.occasion)}`,
+      `Product: ${stripEmojis(form.bouquetType)}`,
+      form.colors.trim() ? `Preferred Colors: ${form.colors.trim()}` : null,
+      form.budget ? `Budget: ${form.budget}` : null,
+      form.date ? `Delivery Date: ${form.date}` : null,
+      showFlowerType && form.flowerType ? `Flower Type: ${stripEmojis(form.flowerType)}` : null,
+      form.message.trim() ? `Message: ${form.message.trim()}` : null,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const whatsappUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -174,7 +240,7 @@ ${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""
           <form onSubmit={handleSubmit} noValidate aria-label="Custom gift order form">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Name */}
-              <InputField label="Your Name" id="order-name" required>
+              <InputField label="Your Name" id="order-name" required error={errors.name}>
                 <input
                   id="order-name"
                   name="name"
@@ -183,13 +249,13 @@ ${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""
                   value={form.name}
                   onChange={handleChange}
                   placeholder="Priya Sharma"
-                  className={inputClass}
+                  className={getInputClass(!!errors.name)}
                   autoComplete="name"
                 />
               </InputField>
 
               {/* Phone */}
-              <InputField label="Phone Number" id="order-phone" required>
+              <InputField label="Phone Number" id="order-phone" required error={errors.phone}>
                 <input
                   id="order-phone"
                   name="phone"
@@ -198,20 +264,20 @@ ${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""
                   value={form.phone}
                   onChange={handleChange}
                   placeholder="+91 98765 43210"
-                  className={inputClass}
+                  className={getInputClass(!!errors.phone)}
                   autoComplete="tel"
                 />
               </InputField>
 
               {/* Occasion */}
-              <InputField label="Occasion" id="order-occasion" required>
+              <InputField label="Occasion" id="order-occasion" required error={errors.occasion}>
                 <select
                   id="order-occasion"
                   name="occasion"
                   required
                   value={form.occasion}
                   onChange={handleChange}
-                  className={inputClass}
+                  className={getInputClass(!!errors.occasion)}
                 >
                   <option value="" disabled>Select occasion</option>
                   {occasions.map((o) => (
@@ -221,14 +287,14 @@ ${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""
               </InputField>
 
               {/* What would you like? */}
-              <InputField label="What would you like?" id="order-bouquet-type" required>
+              <InputField label="What would you like?" id="order-bouquet-type" required error={errors.bouquetType}>
                 <select
                   id="order-bouquet-type"
                   name="bouquetType"
                   required
                   value={form.bouquetType}
                   onChange={handleChange}
-                  className={inputClass}
+                  className={getInputClass(!!errors.bouquetType)}
                 >
                   <option value="" disabled>Select a product</option>
                   {bouquetTypes.map((b) => (
@@ -246,7 +312,7 @@ ${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""
                   value={form.colors}
                   onChange={handleChange}
                   placeholder="Blush pink, white, sage green…"
-                  className={inputClass}
+                  className={getInputClass(false)}
                 />
               </InputField>
 
@@ -257,7 +323,7 @@ ${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""
                   name="budget"
                   value={form.budget}
                   onChange={handleChange}
-                  className={inputClass}
+                  className={getInputClass(false)}
                 >
                   <option value="" disabled>Select budget</option>
                   {budgets.map((b) => (
@@ -274,21 +340,20 @@ ${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""
                   type="date"
                   value={form.date}
                   onChange={handleChange}
-                  className={inputClass}
+                  className={getInputClass(false)}
                   min={new Date().toISOString().split("T")[0]}
                 />
               </InputField>
 
               {/* Flower Type (Conditional) */}
               {showFlowerType && (
-                <InputField label="Flower Type" id="order-flower-type" required>
+                <InputField label="Flower Type" id="order-flower-type">
                   <select
                     id="order-flower-type"
                     name="flowerType"
-                    required
                     value={form.flowerType}
                     onChange={handleChange}
-                    className={inputClass}
+                    className={getInputClass(false)}
                   >
                     <option value="" disabled>Select flower type</option>
                     {flowerTypes.map((f) => (
@@ -308,7 +373,7 @@ ${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""
                     value={form.message}
                     onChange={handleChange}
                     placeholder="Describe your dream gift — the vibe, recipient, colours, theme, or anything specific you have in mind..."
-                    className={`${inputClass} resize-none`}
+                    className={`${getInputClass(false)} resize-none`}
                   />
                 </InputField>
               </div>
@@ -337,5 +402,3 @@ ${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""
     </section>
   );
 }
-
-
