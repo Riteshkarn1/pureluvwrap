@@ -68,8 +68,7 @@ function TestimonialCard({
     <div className="relative flex-shrink-0 w-full sm:w-[480px] bg-white rounded-3xl p-6 sm:p-8 shadow-card overflow-hidden mx-0 sm:mx-3">
       {/* Decorative large quote mark */}
       <span
-        className="absolute top-4 left-5 font-playfair italic leading-none select-none pointer-events-none text-[48px] sm:text-[96px]"
-        style={{ color: "rgba(201,114,122,0.10)" }}
+        className="absolute top-4 left-5 font-playfair italic leading-none select-none pointer-events-none text-[48px] sm:text-[96px] text-[#C9727A]/10"
         aria-hidden="true"
       >
         &ldquo;
@@ -137,11 +136,7 @@ export default function Testimonials() {
 
   return (
     <section
-      className="py-24 sm:py-32 overflow-hidden"
-      style={{
-        background:
-          "radial-gradient(ellipse at 50% 40%, #F5EDE6 0%, #EDD8CF 55%, #E8C9C4 100%)",
-      }}
+      className="py-24 sm:py-32 overflow-hidden bg-[radial-gradient(ellipse_at_50%_40%,#F5EDE6_0%,#EDD8CF_55%,#E8C9C4_100%)]"
       aria-labelledby="testimonials-heading"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -193,7 +188,7 @@ export default function Testimonials() {
               <button
                 key={i}
                 role="tab"
-                aria-selected={i === current}
+                aria-selected={i === current ? "true" : "false"}
                 aria-label={`Go to testimonial ${i + 1}`}
                 onClick={() => goTo(i)}
                 className={`rounded-full transition-all duration-300 ${

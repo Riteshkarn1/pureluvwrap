@@ -83,16 +83,15 @@ export default function USPStrip() {
               {/* ── Mobile: stacked layout ── */}
               <div className="flex flex-col md:hidden gap-1">
                 <span
-                  className="font-playfair font-bold italic leading-none select-none"
-                  style={{ fontSize: "36px", color: "rgba(201,114,122,0.2)" }}
+                  className="font-playfair font-bold italic leading-none select-none text-[36px] text-[#C9727A]/20"
                   aria-hidden="true"
                 >
                   {usp.number}
                 </span>
-                <h3 className="font-playfair font-bold text-brand-text leading-tight mt-1" style={{ fontSize: "20px" }}>
+                <h3 className="font-playfair font-bold text-brand-text leading-tight mt-1 text-[20px]">
                   {usp.title}
                 </h3>
-                <p className="font-dm text-brand-muted leading-relaxed mt-1" style={{ fontSize: "14px" }}>
+                <p className="font-dm text-brand-muted leading-relaxed mt-1 text-[14px]">
                   {usp.body}
                 </p>
               </div>
@@ -100,8 +99,7 @@ export default function USPStrip() {
               {/* ── Desktop: editorial 3-col grid ── */}
               <div className="hidden md:grid grid-cols-[100px_1fr_2fr] gap-x-10 items-center">
                 <span
-                  className="font-playfair text-5xl lg:text-6xl font-bold italic leading-none select-none transition-colors duration-500"
-                  style={{ color: "rgba(201,114,122,0.18)" }}
+                  className="font-playfair text-5xl lg:text-6xl font-bold italic leading-none select-none transition-colors duration-500 text-[#C9727A]/20"
                   aria-hidden="true"
                 >
                   {usp.number}

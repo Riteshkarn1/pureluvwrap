@@ -132,8 +132,7 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Order on WhatsApp"
-              className="flex items-center justify-center w-10 h-10 rounded-full text-white transition-all duration-300 hover:scale-110 flex-shrink-0"
-              style={{ backgroundColor: "#25D366" }}
+              className="flex items-center justify-center w-10 h-10 rounded-full text-white transition-all duration-300 hover:scale-110 flex-shrink-0 bg-[#25D366]"
             >
               <WAIcon size={18} />
             </a>
@@ -143,7 +142,7 @@ export default function Navbar() {
           <button
             id="mobile-menu-toggle"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-expanded={menuOpen}
+            aria-expanded={menuOpen ? "true" : "false"}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             className="md:hidden flex flex-col justify-center items-center gap-[5px] min-w-[44px] min-h-[44px]"
           >
@@ -195,7 +194,7 @@ export default function Navbar() {
               </div>
 
               {/* Nav links */}
-              <ul className="flex flex-col gap-2 px-8 mt-4 flex-1" role="list">
+              <ul className="flex flex-col gap-2 px-8 mt-4 flex-1">
                 {navLinks.map((link, i) => (
                   <motion.li
                     key={link.href}
@@ -222,12 +221,7 @@ export default function Navbar() {
                   rel="noopener noreferrer"
                   onClick={() => setMenuOpen(false)}
                   id="drawer-whatsapp-cta"
-                  className="flex items-center justify-center gap-2 w-full rounded-full text-white font-dm font-medium transition-colors duration-300 hover:bg-brand-burgundy min-h-[52px]"
-                  style={{
-                    backgroundColor: "#C9727A",
-                    fontSize: "15px",
-                    padding: "14px",
-                  }}
+                  className="flex items-center justify-center gap-2 w-full rounded-full text-white font-dm font-medium transition-colors duration-300 hover:bg-brand-burgundy min-h-[52px] bg-[#C9727A] text-[15px] p-[14px]"
                 >
                   <WAIcon size={18} />
                   Order on WhatsApp 💬

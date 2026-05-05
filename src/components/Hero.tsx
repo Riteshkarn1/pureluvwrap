@@ -160,8 +160,7 @@ export default function Hero() {
 
         {/* Soft left-edge bleed — desktop only */}
         <div
-          className="absolute inset-y-0 left-0 w-[12%] pointer-events-none z-10 hidden md:block"
-          style={{ background: "linear-gradient(to right, #FAF7F4 0%, transparent 100%)" }}
+          className="absolute inset-y-0 left-0 w-[12%] pointer-events-none z-10 hidden md:block bg-gradient-to-r from-[#FAF7F4] to-transparent"
           aria-hidden="true"
         />
       </div>
@@ -193,8 +192,7 @@ export default function Hero() {
               <div className="flex items-center gap-3 mb-5 md:mb-6">
                 <span className="flex-shrink-0 w-8 md:w-10 h-[1.5px] bg-[#C9727A]" />
                 <span
-                  className="font-dm uppercase text-[#C9727A]"
-                  style={{ fontSize: "10px", letterSpacing: "0.2em" }}
+                  className="font-dm uppercase text-[#C9727A] text-[10px] tracking-[0.2em]"
                 >
                   {slide.eyebrow}
                 </span>
@@ -215,8 +213,7 @@ export default function Hero() {
 
               {/* 3 — Subtext */}
               <p
-                className="font-dm text-[#6B6B6B] leading-[1.6] mb-7 md:mb-9 max-w-full md:max-w-[320px] lg:max-w-[380px]"
-                style={{ fontSize: "15px" }}
+                className="font-dm text-[#6B6B6B] leading-[1.6] mb-7 md:mb-9 max-w-full md:max-w-[320px] lg:max-w-[380px] text-[15px]"
               >
                 {slide.subtext}
               </p>
@@ -229,8 +226,7 @@ export default function Hero() {
               href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-shimmer inline-flex items-center justify-center gap-2.5 rounded-full bg-[#C9727A] text-white font-dm font-medium text-[15px] hover:bg-[#8B5E52] transition-colors duration-300 hover:shadow-rose hover:scale-[1.03] active:scale-100 w-full sm:w-auto min-h-[52px]"
-              style={{ padding: "14px 28px" }}
+              className="btn-shimmer inline-flex items-center justify-center gap-2.5 rounded-full bg-[#C9727A] text-white font-dm font-medium text-[15px] hover:bg-[#8B5E52] transition-colors duration-300 hover:shadow-rose hover:scale-[1.03] active:scale-100 w-full sm:w-auto min-h-[52px] px-[28px] py-[14px]"
             >
               <WAIcon />
               Order on WhatsApp
@@ -238,8 +234,7 @@ export default function Hero() {
             <a
               href="#collections"
               onClick={scrollToCollections}
-              className="inline-flex items-center justify-center gap-2 rounded-full font-dm font-medium text-[15px] border-[1.5px] border-[#2C2C2C] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-white transition-all duration-300 w-full sm:w-auto min-h-[52px]"
-              style={{ padding: "14px 28px" }}
+              className="inline-flex items-center justify-center gap-2 rounded-full font-dm font-medium text-[15px] border-[1.5px] border-[#2C2C2C] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-white transition-all duration-300 w-full sm:w-auto min-h-[52px] px-[28px] py-[14px]"
             >
               View Collections
               <ArrowIcon />
@@ -252,14 +247,13 @@ export default function Hero() {
               {["A", "P", "S"].map((letter, i) => (
                 <div
                   key={i}
-                  className="w-8 h-8 rounded-full border-2 border-[#FAF7F4] flex items-center justify-center font-dm font-bold text-[11px] text-white"
-                  style={{ backgroundColor: i === 0 ? "#C9727A" : i === 1 ? "#8B5E52" : "#C8A876" }}
+                  className={`w-8 h-8 rounded-full border-2 border-[#FAF7F4] flex items-center justify-center font-dm font-bold text-[11px] text-white ${i === 0 ? "bg-[#C9727A]" : i === 1 ? "bg-[#8B5E52]" : "bg-[#C8A876]"}`}
                 >
                   {letter}
                 </div>
               ))}
             </div>
-            <p className="font-dm text-[#6B6B6B]" style={{ fontSize: "12px" }}>
+            <p className="font-dm text-[#6B6B6B] text-[12px]">
               <span className="text-[#2C2C2C] font-semibold">200+</span> happy customers this month
             </p>
           </div>
@@ -320,8 +314,7 @@ export default function Hero() {
             {[0, 1, 2].map((rep) => (
               <span
                 key={rep}
-                className="font-dm flex-shrink-0"
-                style={{ fontSize: "11px", letterSpacing: "0.15em", color: "#C8A876", textTransform: "uppercase" }}
+                className="font-dm flex-shrink-0 text-[11px] tracking-[0.15em] text-[#C8A876] uppercase"
               >
                 {MARQUEE_TEXT}
               </span>

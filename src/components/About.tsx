@@ -106,11 +106,10 @@ export default function About() {
             className="relative"
           >
             {/* Mobile: flat full-width image */}
-            <div className="relative w-full overflow-hidden rounded-2xl lg:rounded-3xl shadow-card-hover"
-              style={{ height: "280px" }}
+            <div className="relative w-full overflow-hidden rounded-2xl lg:rounded-3xl shadow-card-hover h-[280px]"
               // On lg screens, let aspect ratio control height
             >
-              <div className="lg:hidden relative w-full" style={{ height: "280px" }}>
+              <div className="lg:hidden relative w-full h-[280px]">
                 <Image
                   src="/about-flatlay.png"
                   alt="A beautiful flatlay of handcrafted PureLuvWrap gifts including a bouquet, keychain, and photo frame"

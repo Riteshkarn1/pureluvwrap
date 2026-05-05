@@ -20,9 +20,8 @@ export default function FloatingWhatsApp() {
 
   return (
     <div
-      className="fixed z-50 flex flex-col items-end gap-2"
+      className="fixed z-50 flex flex-col items-end gap-2 bottom-[20px] right-[16px] sm:bottom-[24px] sm:right-[24px]"
       /* Mobile: bottom 20px right 16px; Desktop: bottom 24px right 24px */
-      style={{ bottom: "20px", right: "16px" }}
     >
       {/* Tooltip */}
       <AnimatePresence>
@@ -51,23 +50,15 @@ export default function FloatingWhatsApp() {
         onFocus={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         onBlur={() => setShowTooltip(false)}
-        className="relative flex items-center justify-center rounded-full shadow-lg w-[52px] h-[52px] sm:w-14 sm:h-14"
+        className={`relative flex items-center justify-center rounded-full shadow-lg w-[52px] h-[52px] sm:w-14 sm:h-14 bg-[#25D366] ${!prefersReducedMotion ? 'pulse-wa' : ''}`}
         style={{
-          backgroundColor: "#25D366",
-          animation: prefersReducedMotion ? "none" : "pulse-btn 3s ease-in-out infinite",
           willChange: "transform",
         }}
       >
         {/* Ripple ring */}
         {!prefersReducedMotion && (
           <span
-            className="absolute inset-0 rounded-full"
-            style={{
-              border: "2px solid #25D366",
-              animation: "pulse-btn 3s ease-in-out infinite",
-              opacity: 0.4,
-              scale: 1.15,
-            }}
+            className="absolute inset-0 rounded-full border-2 border-[#25D366] opacity-40 scale-[1.15] pulse-wa"
             aria-hidden="true"
           />
         )}

@@ -96,8 +96,7 @@ function InputField({
       {children}
       {error && (
         <span
-          className="font-dm text-[#ef4444]"
-          style={{ fontSize: "12px", marginTop: "4px" }}
+          className="font-dm text-[#ef4444] text-[12px] mt-1"
         >
           {error}
         </span>
@@ -274,6 +273,7 @@ export default function OrderForm() {
                 <select
                   id="order-occasion"
                   name="occasion"
+                  title="Occasion"
                   required
                   value={form.occasion}
                   onChange={handleChange}
@@ -291,6 +291,7 @@ export default function OrderForm() {
                 <select
                   id="order-bouquet-type"
                   name="bouquetType"
+                  title="What would you like?"
                   required
                   value={form.bouquetType}
                   onChange={handleChange}
@@ -321,6 +322,7 @@ export default function OrderForm() {
                 <select
                   id="order-budget"
                   name="budget"
+                  title="Budget Range"
                   value={form.budget}
                   onChange={handleChange}
                   className={getInputClass(false)}
@@ -338,6 +340,8 @@ export default function OrderForm() {
                   id="order-date"
                   name="date"
                   type="date"
+                  title="Preferred Delivery Date"
+                  placeholder="YYYY-MM-DD"
                   value={form.date}
                   onChange={handleChange}
                   className={getInputClass(false)}
@@ -351,6 +355,7 @@ export default function OrderForm() {
                   <select
                     id="order-flower-type"
                     name="flowerType"
+                    title="Flower Type"
                     value={form.flowerType}
                     onChange={handleChange}
                     className={getInputClass(false)}
