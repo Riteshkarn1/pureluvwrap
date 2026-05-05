@@ -115,8 +115,63 @@ const getInputClass = (hasError: boolean) =>
 export default function OrderForm() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [referenceImage, setReferenceImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageError, setImageError] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setImageError("Image must be under 5MB");
+      return;
+    }
+
+    setImageError("");
+    setReferenceImage(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
+    
+    if (file.size > 5 * 1024 * 1024) {
+      setImageError("Image must be under 5MB");
+      return;
+    }
+
+    setImageError("");
+    setReferenceImage(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const clearImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setReferenceImage(null);
+    setImagePreview(null);
+    setImageError("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -190,6 +245,7 @@ export default function OrderForm() {
       form.date ? `Delivery Date: ${form.date}` : null,
       showFlowerType && form.flowerType ? `Flower Type: ${stripEmojis(form.flowerType)}` : null,
       form.message.trim() ? `Message: ${form.message.trim()}` : null,
+      referenceImage ? `Reference Image: I have a reference image to share. I will send it in this chat.` : null,
     ]
       .filter(Boolean)
       .join("\n");
@@ -368,8 +424,77 @@ export default function OrderForm() {
                 </InputField>
               )}
 
-              {/* Special Message - full width */}
+              {/* Reference Image (Optional) */}
               <div className="sm:col-span-2">
+                <div className="flex flex-col gap-1.5 mb-2">
+                  <label className="font-dm text-sm font-medium text-brand-text">
+                    Reference Image (Optional)
+                  </label>
+                  <span className="font-dm text-[12px] text-[#9B9B9B]">
+                    Share a photo for inspiration — a design you love, a colour combination, anything that helps us understand your vision.
+                  </span>
+                </div>
+                
+                <div 
+                  className={`relative w-full rounded-[12px] border-[1.5px] border-dashed border-[#C9727A] bg-[#FDF8F6] hover:bg-[#FAF0EE] hover:border-solid transition-all cursor-pointer flex flex-col items-center justify-center p-[24px] ${imageError ? 'border-red-500' : ''}`}
+                  onDrop={handleDrop}
+                  onDragOver={handleDragOver}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                  
+                  {imagePreview ? (
+                    <div className="flex flex-col items-center w-full relative">
+                      <img 
+                        src={imagePreview} 
+                        alt="Reference Preview" 
+                        className="max-h-[120px] object-contain rounded-md"
+                      />
+                      <span className="font-dm text-[12px] text-[#6B6B6B] mt-2 truncate max-w-[200px]">
+                        {referenceImage?.name}
+                      </span>
+                      <button 
+                        type="button"
+                        onClick={clearImage}
+                        className="mt-3 text-[#C9727A] font-dm text-[12px] hover:underline"
+                      >
+                        ✕ Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9727A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                      </svg>
+                      <span className="font-dm text-[14px] text-[#6B6B6B] hidden sm:block">
+                        Click to upload or drag & drop
+                      </span>
+                      <span className="font-dm text-[14px] text-[#6B6B6B] sm:hidden">
+                        Tap to upload a photo
+                      </span>
+                      <span className="font-dm text-[11px] text-[#9B9B9B] mt-1">
+                        JPG, PNG, WEBP up to 5MB
+                      </span>
+                    </>
+                  )}
+                </div>
+                {imageError && (
+                  <span className="font-dm text-[#ef4444] text-[12px] mt-1 block">
+                    {imageError}
+                  </span>
+                )}
+              </div>
+
+              {/* Special Message - full width */}
+              <div className="sm:col-span-2 mt-4 sm:mt-0">
                 <InputField label="Special Message or Vision" id="order-message">
                   <textarea
                     id="order-message"
