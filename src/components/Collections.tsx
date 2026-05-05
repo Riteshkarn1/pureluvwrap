@@ -56,7 +56,7 @@ const collectionsData = [
   },
 ];
 
-const WA_NUMBER = "919876606759";
+const WA_NUMBER = "919877310855";
 
 function CollectionCard({ item, index }: { item: typeof collectionsData[0]; index: number }) {
   const ref = useRef(null);
@@ -152,3 +152,4 @@ export default function Collections() {
     </section>
   );
 }
+
