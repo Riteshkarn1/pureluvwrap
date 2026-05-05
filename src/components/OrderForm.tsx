@@ -1,23 +1,23 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 /* ─── WhatsApp Number ───────────────────────────────── */
 const WA_NUMBER = "919877310855";
 
 /* ─── Dropdown options ──────────────────────────────── */
 const occasions = [
-  "Birthday",
-  "Anniversary",
-  "Valentine's Day",
-  "Farewell",
-  "Wedding",
-  "Corporate",
-  "Friendship Day",
-  "Just Because",
-  "Other",
+  "🎂 Birthday",
+  "💑 Anniversary",
+  "💝 Valentine's Day",
+  "👋 Farewell",
+  "💍 Wedding",
+  "🏢 Corporate Gift",
+  "👫 Friendship Day",
+  "🎓 Graduation",
+  "🌸 Just Because",
+  "✏️ Other",
 ];
 
 const budgets = [
@@ -35,18 +35,16 @@ const flowerTypes = [
 ];
 
 const bouquetTypes = [
-  "Ribbon Bouquet",
-  "Paper Bouquet",
-  "Pipe Cleaner Bouquet",
-  "Tissue Paper Bouquet",
-  "Photo Bouquet (with polaroids)",
-  "Figurine / Clay Bouquet",
-  "Candy Bouquet",
-  "Gift Box / Hamper",
-  "Custom Keychain",
-  "Photo Frame",
-  "Crochet Gift",
-  "Other (I'll describe in my message)",
+  "🌸 Flower Bouquet (Artificial)",
+  "🌿 Flower Bouquet (Natural)",
+  "📸 Photo Bouquet (with Polaroids)",
+  "🧸 Figurine / Clay Bouquet",
+  "🍬 Candy Bouquet",
+  "🎁 Gift Box / Hamper",
+  "🔑 Custom Keychain",
+  "🖼️ Photo Frame",
+  "🧶 Crochet Gift",
+  "✏️ Other (I'll describe below)",
 ];
 
 type FormData = {
@@ -112,6 +110,12 @@ export default function OrderForm() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const showFlowerType = [
+    "🌸 Flower Bouquet (Artificial)",
+    "🌿 Flower Bouquet (Natural)",
+    "📸 Photo Bouquet (with Polaroids)",
+  ].includes(form.bouquetType);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const msg = `Hi PureLuvWrap! 🌸 I'd like to place a custom order:
@@ -119,9 +123,8 @@ export default function OrderForm() {
 - Name: ${form.name}
 - Phone: ${form.phone}
 - Occasion: ${form.occasion || "Not specified"}
-- Flower Type: ${form.flowerType || "Not specified"}
-- Bouquet Type: ${form.bouquetType || "Not specified"}
-- Preferred Colors: ${form.colors || "No preference"}
+- What would you like?: ${form.bouquetType || "Not specified"}
+${showFlowerType ? `- Flower Type: ${form.flowerType || "Not specified"}\n` : ""}- Preferred Colors: ${form.colors || "No preference"}
 - Budget: ${form.budget || "Not specified"}
 - Delivery Date: ${form.date || "Flexible"}
 - Message: ${form.message || "None"}`;
@@ -147,17 +150,17 @@ export default function OrderForm() {
         >
           <span className="inline-flex items-center gap-2 text-brand-rose text-sm font-dm font-medium tracking-widest uppercase mb-4">
             <span className="w-6 h-px bg-brand-rose" />
-            Custom Orders
+            CUSTOM ORDERS
             <span className="w-6 h-px bg-brand-rose" />
           </span>
           <h2
             id="order-heading"
             className="font-playfair text-[32px] sm:text-5xl font-bold text-brand-text tracking-tight mb-4"
           >
-            Create Your Dream Bouquet
+            Create Your Dream Gift
           </h2>
           <p className="font-dm text-brand-muted text-lg leading-relaxed">
-            Tell us your vision and we&apos;ll bring it to life — crafted with love, delivered fresh.
+            Tell us what you have in mind — we&apos;ll handcraft it just for you, with love.
           </p>
         </motion.div>
 
@@ -168,7 +171,7 @@ export default function OrderForm() {
           transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="bg-white rounded-2xl md:rounded-3xl shadow-card p-6 sm:p-8 md:p-10 border border-brand-rose-light/40"
         >
-          <form onSubmit={handleSubmit} noValidate aria-label="Custom bouquet order form">
+          <form onSubmit={handleSubmit} noValidate aria-label="Custom gift order form">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Name */}
               <InputField label="Your Name" id="order-name" required>
@@ -217,17 +220,18 @@ export default function OrderForm() {
                 </select>
               </InputField>
 
-              {/* Budget */}
-              <InputField label="Budget Range" id="order-budget">
+              {/* What would you like? */}
+              <InputField label="What would you like?" id="order-bouquet-type" required>
                 <select
-                  id="order-budget"
-                  name="budget"
-                  value={form.budget}
+                  id="order-bouquet-type"
+                  name="bouquetType"
+                  required
+                  value={form.bouquetType}
                   onChange={handleChange}
                   className={inputClass}
                 >
-                  <option value="" disabled>Select budget</option>
-                  {budgets.map((b) => (
+                  <option value="" disabled>Select a product</option>
+                  {bouquetTypes.map((b) => (
                     <option key={b} value={b}>{b}</option>
                   ))}
                 </select>
@@ -246,6 +250,22 @@ export default function OrderForm() {
                 />
               </InputField>
 
+              {/* Budget */}
+              <InputField label="Budget Range" id="order-budget">
+                <select
+                  id="order-budget"
+                  name="budget"
+                  value={form.budget}
+                  onChange={handleChange}
+                  className={inputClass}
+                >
+                  <option value="" disabled>Select budget</option>
+                  {budgets.map((b) => (
+                    <option key={b} value={b}>{b}</option>
+                  ))}
+                </select>
+              </InputField>
+
               {/* Delivery Date */}
               <InputField label="Preferred Delivery Date" id="order-date">
                 <input
@@ -259,39 +279,24 @@ export default function OrderForm() {
                 />
               </InputField>
 
-              {/* Flower Type */}
-              <InputField label="Flower Type" id="order-flower-type" required>
-                <select
-                  id="order-flower-type"
-                  name="flowerType"
-                  required
-                  value={form.flowerType}
-                  onChange={handleChange}
-                  className={inputClass}
-                >
-                  <option value="" disabled>Select flower type</option>
-                  {flowerTypes.map((f) => (
-                    <option key={f} value={f}>{f}</option>
-                  ))}
-                </select>
-              </InputField>
-
-              {/* Bouquet Type */}
-              <InputField label="Bouquet Type" id="order-bouquet-type" required>
-                <select
-                  id="order-bouquet-type"
-                  name="bouquetType"
-                  required
-                  value={form.bouquetType}
-                  onChange={handleChange}
-                  className={inputClass}
-                >
-                  <option value="" disabled>Select bouquet type</option>
-                  {bouquetTypes.map((b) => (
-                    <option key={b} value={b}>{b}</option>
-                  ))}
-                </select>
-              </InputField>
+              {/* Flower Type (Conditional) */}
+              {showFlowerType && (
+                <InputField label="Flower Type" id="order-flower-type" required>
+                  <select
+                    id="order-flower-type"
+                    name="flowerType"
+                    required
+                    value={form.flowerType}
+                    onChange={handleChange}
+                    className={inputClass}
+                  >
+                    <option value="" disabled>Select flower type</option>
+                    {flowerTypes.map((f) => (
+                      <option key={f} value={f}>{f}</option>
+                    ))}
+                  </select>
+                </InputField>
+              )}
 
               {/* Special Message - full width */}
               <div className="sm:col-span-2">
@@ -302,7 +307,7 @@ export default function OrderForm() {
                     rows={4}
                     value={form.message}
                     onChange={handleChange}
-                    placeholder="Describe your dream bouquet — the vibe, recipient, any specific flowers you love…"
+                    placeholder="Describe your dream gift — the vibe, recipient, colours, theme, or anything specific you have in mind..."
                     className={`${inputClass} resize-none`}
                   />
                 </InputField>

@@ -25,8 +25,8 @@ const usps = [
   },
   {
     number: "04",
-    title: "Fast Delivery in Jalandhar",
-    body: "Order by noon and receive your handcrafted gift the same day — anywhere across Jalandhar.",
+    title: "2–3 Day Crafting Time",
+    body: "Every gift is made fresh, just for you. We take 2–3 days to handcraft your order with care — because good things take time. 💛",
     from: 60,
   },
 ];

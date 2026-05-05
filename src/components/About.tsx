@@ -112,8 +112,8 @@ export default function About() {
             >
               <div className="lg:hidden relative w-full" style={{ height: "280px" }}>
                 <Image
-                  src="/about-wrapping.png"
-                  alt="Artisan hands carefully wrapping a fresh flower bouquet at PureLuvWrap"
+                  src="/about-flatlay.png"
+                  alt="A beautiful flatlay of handcrafted PureLuvWrap gifts including a bouquet, keychain, and photo frame"
                   fill
                   sizes="100vw"
                   className="object-cover"
@@ -127,8 +127,8 @@ export default function About() {
             {/* Desktop: aspect-ratio image with floating badge */}
             <div className="hidden lg:block relative rounded-3xl overflow-hidden aspect-[4/5] shadow-card-hover">
               <Image
-                src="/about-wrapping.png"
-                alt="Artisan hands carefully wrapping a fresh flower bouquet at PureLuvWrap"
+                src="/about-flatlay.png"
+                alt="A beautiful flatlay of handcrafted PureLuvWrap gifts including a bouquet, keychain, and photo frame"
                 fill
                 sizes="50vw"
                 className="object-cover"
