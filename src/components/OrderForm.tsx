@@ -2,6 +2,20 @@
 
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import emailjs from '@emailjs/browser';
+
+const EMAILJS_SERVICE_ID = "service_qg4f232";
+const EMAILJS_TEMPLATE_ID = "template_3n9eljb";
+const EMAILJS_PUBLIC_KEY = "bhbvhqxB94AooUfzw";
+
+const convertToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+};
 
 /* ─── WhatsApp Number ───────────────────────────────── */
 const WA_NUMBER = "919877310855";
@@ -118,6 +132,9 @@ export default function OrderForm() {
   const [referenceImage, setReferenceImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -193,7 +210,7 @@ export default function OrderForm() {
     return str.replace(/[^\w\s\/\(\)&\-]/g, "").trim();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: { [key: string]: string } = {};
 
@@ -231,27 +248,104 @@ export default function OrderForm() {
       return;
     }
 
-    const message = [
-      "Hi PureLuvWrap!",
-      "",
-      "I'd like to place a custom order:",
-      "",
-      `Name: ${form.name.trim()}`,
-      `Phone: ${form.phone.trim()}`,
-      `Occasion: ${stripEmojis(form.occasion)}`,
-      `Product: ${stripEmojis(form.bouquetType)}`,
-      form.colors.trim() ? `Preferred Colors: ${form.colors.trim()}` : null,
-      form.budget ? `Budget: ${form.budget}` : null,
-      form.date ? `Delivery Date: ${form.date}` : null,
-      showFlowerType && form.flowerType ? `Flower Type: ${stripEmojis(form.flowerType)}` : null,
-      form.message.trim() ? `Message: ${form.message.trim()}` : null,
-      referenceImage ? `Reference Image: I have a reference image to share. I will send it in this chat.` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    setIsSubmitting(true);
 
-    const whatsappUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    try {
+      // Convert image to base64 if uploaded
+      let imageBase64 = "No reference image provided";
+      if (referenceImage) {
+        imageBase64 = await convertToBase64(referenceImage);
+      }
+
+      // Send email via EmailJS
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          customer_name: form.name.trim(),
+          customer_phone: form.phone.trim(),
+          occasion: form.occasion || "Not specified",
+          product: form.bouquetType || "Not specified",
+          flower_type: form.flowerType || "Not specified",
+          preferred_colors: form.colors.trim() || "Not specified",
+          budget: form.budget || "Not specified",
+          delivery_date: form.date || "Not specified",
+          special_message: form.message.trim() || "No message provided",
+          reference_image: imageBase64,
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+
+      // After email sends successfully, open WhatsApp
+      const message = [
+        "Hi PureLuvWrap!",
+        "",
+        "I'd like to place a custom order:",
+        "",
+        `Name: ${form.name.trim()}`,
+        `Phone: ${form.phone.trim()}`,
+        `Occasion: ${stripEmojis(form.occasion)}`,
+        `Product: ${stripEmojis(form.bouquetType)}`,
+        form.colors.trim() ? `Preferred Colors: ${form.colors.trim()}` : null,
+        form.budget ? `Budget: ${form.budget}` : null,
+        form.date ? `Delivery Date: ${form.date}` : null,
+        showFlowerType && form.flowerType ? `Flower Type: ${stripEmojis(form.flowerType)}` : null,
+        referenceImage 
+          ? "Reference Image: I have sent a reference image via email." 
+          : null,
+        form.message.trim() ? `Message: ${form.message.trim()}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      const whatsappUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
+      // Show success message
+      setSubmitSuccess(true);
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setForm(initialForm);
+        setReferenceImage(null);
+        setImagePreview(null);
+        setImageError("");
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+        setSubmitSuccess(false);
+      }, 3000);
+
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      // If email fails, still open WhatsApp so customer isn't blocked
+      const message = [
+        "Hi PureLuvWrap!",
+        "",
+        "I'd like to place a custom order:",
+        "",
+        `Name: ${form.name.trim()}`,
+        `Phone: ${form.phone.trim()}`,
+        `Occasion: ${stripEmojis(form.occasion)}`,
+        `Product: ${stripEmojis(form.bouquetType)}`,
+        form.colors.trim() ? `Preferred Colors: ${form.colors.trim()}` : null,
+        form.budget ? `Budget: ${form.budget}` : null,
+        form.date ? `Delivery Date: ${form.date}` : null,
+        showFlowerType && form.flowerType ? `Flower Type: ${stripEmojis(form.flowerType)}` : null,
+        form.message.trim() ? `Message: ${form.message.trim()}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      const whatsappUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
+      // Show error toast
+      setSubmitError(true);
+      setTimeout(() => setSubmitError(false), 4000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -510,17 +604,44 @@ export default function OrderForm() {
             </div>
 
             {/* Submit button */}
-            <div className="mt-8">
+            <div className="mt-8 relative">
+              {submitError && (
+                <div className="absolute -top-12 left-0 right-0 mx-auto w-max bg-red-500 text-white text-xs px-4 py-2 rounded-lg shadow-lg z-10 animate-fade-in text-center">
+                  Email failed but your WhatsApp message was sent.<br/>
+                  Please share your reference image directly in the chat.
+                </div>
+              )}
               <button
                 type="submit"
                 id="order-submit-btn"
-                className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl bg-brand-rose text-white font-dm font-semibold text-base hover:bg-brand-burgundy transition-all duration-300 hover:shadow-rose hover:scale-[1.02] active:scale-100"
+                disabled={isSubmitting || submitSuccess}
+                className={`w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-dm font-semibold text-base transition-all duration-300 ${
+                  submitSuccess 
+                    ? "bg-[#22c55e] text-white cursor-default"
+                    : isSubmitting
+                    ? "bg-brand-rose text-white opacity-80 cursor-not-allowed"
+                    : "bg-brand-rose text-white hover:bg-brand-burgundy hover:shadow-rose hover:scale-[1.02] active:scale-100"
+                }`}
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.563 4.14 1.545 5.873L.057 23.448a.5.5 0 0 0 .611.61l5.596-1.479A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.7-.505-5.25-1.385l-.375-.213-3.88 1.025 1.037-3.78-.228-.374A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
-                </svg>
-                Send My Order via WhatsApp 💬
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending your order...
+                  </>
+                ) : submitSuccess ? (
+                  "Order Sent Successfully! ✓"
+                ) : (
+                  <>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.563 4.14 1.545 5.873L.057 23.448a.5.5 0 0 0 .611.61l5.596-1.479A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.7-.505-5.25-1.385l-.375-.213-3.88 1.025 1.037-3.78-.228-.374A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+                    </svg>
+                    Send My Order via WhatsApp 💬
+                  </>
+                )}
               </button>
               <p className="text-center font-dm text-xs text-brand-muted mt-3">
                 This will open WhatsApp with your order details pre-filled. No account needed.
