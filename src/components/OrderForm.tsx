@@ -264,6 +264,7 @@ export default function OrderForm() {
         {
           customer_name: form.name.trim(),
           customer_phone: form.phone.trim(),
+          email: `${form.name.trim()} (${form.phone.trim()})`,
           occasion: form.occasion || "Not specified",
           product: form.bouquetType || "Not specified",
           flower_type: form.flowerType || "Not specified",
