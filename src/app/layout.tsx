@@ -21,7 +21,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "PureLuvWrap — Handcrafted Bouquets in Jalandhar, Punjab",
   description:
-    "Premium handcrafted bouquets for every occasion. Same-day delivery across Jalandhar & Punjab. Order via WhatsApp. Anniversaries, birthdays, weddings & more.",
+    "Premium handcrafted bouquets for every occasion. Delivered in 2–3 Days across Jalandhar & Punjab. Order via WhatsApp. Anniversaries, birthdays, weddings & more.",
   keywords: [
     "bouquet Jalandhar",
     "flower delivery Punjab",

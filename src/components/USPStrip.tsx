@@ -19,14 +19,14 @@ const usps = [
   },
   {
     number: "03",
-    title: "Fresh & Unique Designs",
+    title: "Original & Unique Designs",
     body: "From pipe cleaner bouquets to clay figurines — our designs are one-of-a-kind and always on-trend.",
     from: -60,
   },
   {
     number: "04",
     title: "2–3 Day Crafting Time",
-    body: "Every gift is made fresh, just for you. We take 2–3 days to handcraft your order with care — because good things take time. 💛",
+    body: "Every gift is made to order, just for you. We take 2–3 days to handcraft your order with care — because good things take time. 💛",
     from: 60,
   },
 ];

@@ -10,7 +10,7 @@ const testimonials = [
   {
     id: 1,
     quote:
-      "Ordered an anniversary bouquet for my wife and she was absolutely stunned. The roses were so fresh and the packaging was stunning — felt like a luxury gift from the finest boutique. Will order again for every occasion!",
+      "Ordered an anniversary bouquet for my wife and she was absolutely stunned. The craftsmanship was outstanding and the packaging was stunning — felt like a luxury gift from the finest boutique. Will order again for every occasion!",
     name: "Arjun Malhotra",
     location: "Jalandhar",
     occasion: "Anniversary",

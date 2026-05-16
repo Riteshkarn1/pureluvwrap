@@ -57,9 +57,7 @@ export default function About() {
               </p>
               <p>
                 Today, we craft dozens of arrangements every week, but each one still gets
-                the same thoughtful attention as our very first. We source the freshest
-                blooms from local markets every single morning, and every stem is placed
-                with intention.
+                the same thoughtful attention as our very first.
               </p>
               <p className="text-brand-text font-medium">
                 We don&apos;t just sell flowers — we create moments you&apos;ll remember.
@@ -71,7 +69,7 @@ export default function About() {
               {[
                 { value: "500+", label: "Happy Customers" },
                 { value: "3+",   label: "Years of Craft" },
-                { value: "100%", label: "Fresh Blooms" },
+                { value: "100%", label: "Handcrafted Pieces" },
               ].map((stat) => (
                 <div key={stat.label} className="text-center">
                   <p className="font-playfair font-bold gradient-text text-[28px] md:text-3xl">{stat.value}</p>
@@ -144,7 +142,7 @@ export default function About() {
                 aria-hidden="true"
               >
                 <p className="font-playfair text-brand-rose font-bold text-lg">100%</p>
-                <p className="font-dm text-brand-muted text-xs">Fresh, Always</p>
+                <p className="font-dm text-brand-muted text-xs">Handcrafted, Always</p>
               </motion.div>
 
               {/* Decorative circles */}
