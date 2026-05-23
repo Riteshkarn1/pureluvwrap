@@ -17,7 +17,7 @@ const slides = [
     heading1: "Every Petal,",
     heading2: "Wrapped in",
     heading3: "Love.",
-    subtext: "Artificial & natural bouquets for every occasion",
+    subtext: "Beautiful artificial bouquets for every occasion",
     image: "/hero-bouquets.png",
   },
   {
@@ -326,5 +326,7 @@ export default function Hero() {
     </section>
   );
 }
+
+
 
 
