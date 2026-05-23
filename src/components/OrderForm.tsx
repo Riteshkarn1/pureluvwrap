@@ -8,13 +8,20 @@ const EMAILJS_SERVICE_ID = "service_qg4f232";
 const EMAILJS_TEMPLATE_ID = "template_3n9eljb";
 const EMAILJS_PUBLIC_KEY = "bhbvhqxB94AooUfzw";
 
-const convertToBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+const uploadToCloudinary = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', 'd2qsujot');
+
+  const response = await fetch(
+    'https://api.cloudinary.com/v1_1/dhju7blft/image/upload',
+    {
+      method: 'POST',
+      body: formData,
+    }
+  );
+  const data = await response.json();
+  return data.secure_url;
 };
 
 /* ─── WhatsApp Number ───────────────────────────────── */
@@ -248,10 +255,10 @@ export default function OrderForm() {
     setIsSubmitting(true);
 
     try {
-      // Convert image to base64 if uploaded
-      let imageBase64 = "No reference image provided";
+      // Upload image to Cloudinary and get a URL (avoids EmailJS payload limits)
+      let imageUrl = "No reference image provided";
       if (referenceImage) {
-        imageBase64 = await convertToBase64(referenceImage);
+        imageUrl = await uploadToCloudinary(referenceImage);
       }
 
       // Send email via EmailJS
@@ -269,7 +276,7 @@ export default function OrderForm() {
           budget: form.budget || "Not specified",
           delivery_date: form.date || "Not specified",
           special_message: form.message.trim() || "No message provided",
-          reference_image: imageBase64,
+          reference_image: imageUrl,
         },
         EMAILJS_PUBLIC_KEY
       );
