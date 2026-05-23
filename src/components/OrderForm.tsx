@@ -49,11 +49,7 @@ const budgets = [
   "₹7,000+",
 ];
 
-const flowerTypes = [
-  "🌸 ",
-  "🎀 Artificial Flowers",
-  "🌸🎀 Both (Mix)",
-];
+
 
 const bouquetTypes = [
   "🌸 Flower Bouquet (Artificial)",
@@ -71,7 +67,7 @@ type FormData = {
   name: string;
   phone: string;
   occasion: string;
-  flowerType: string;
+
   bouquetType: string;
   colors: string;
   budget: string;
@@ -83,7 +79,7 @@ const initialForm: FormData = {
   name: "",
   phone: "",
   occasion: "",
-  flowerType: "",
+
   bouquetType: "",
   colors: "",
   budget: "",
@@ -204,10 +200,6 @@ export default function OrderForm() {
     }
   };
 
-  const showFlowerType = [
-    "🌸 Flower Bouquet (Artificial)",
-    "📸 Photo Bouquet (with Polaroids)",
-  ].includes(form.bouquetType);
 
   const stripEmojis = (str: string) => {
     if (!str) return "";
@@ -271,7 +263,7 @@ export default function OrderForm() {
           email: `${form.name.trim()} (${form.phone.trim()})`,
           occasion: form.occasion || "Not specified",
           product: form.bouquetType || "Not specified",
-          flower_type: form.flowerType || "Not specified",
+
           preferred_colors: form.colors.trim() || "Not specified",
           budget: form.budget || "Not specified",
           delivery_date: form.date || "Not specified",
@@ -294,7 +286,7 @@ export default function OrderForm() {
         form.colors.trim() ? `Preferred Colors: ${form.colors.trim()}` : null,
         form.budget ? `Budget: ${form.budget}` : null,
         form.date ? `Delivery Date: ${form.date}` : null,
-        showFlowerType && form.flowerType ? `Flower Type: ${stripEmojis(form.flowerType)}` : null,
+
         referenceImage
           ? "Reference Image: I have sent a reference image via email."
           : null,
@@ -336,7 +328,7 @@ export default function OrderForm() {
         form.colors.trim() ? `Preferred Colors: ${form.colors.trim()}` : null,
         form.budget ? `Budget: ${form.budget}` : null,
         form.date ? `Delivery Date: ${form.date}` : null,
-        showFlowerType && form.flowerType ? `Flower Type: ${stripEmojis(form.flowerType)}` : null,
+
         form.message.trim() ? `Message: ${form.message.trim()}` : null,
       ]
         .filter(Boolean)
@@ -504,24 +496,6 @@ export default function OrderForm() {
                 />
               </InputField>
 
-              {/* Flower Type (Conditional) */}
-              {showFlowerType && (
-                <InputField label="Flower Type" id="order-flower-type">
-                  <select
-                    id="order-flower-type"
-                    name="flowerType"
-                    title="Flower Type"
-                    value={form.flowerType}
-                    onChange={handleChange}
-                    className={getInputClass(false)}
-                  >
-                    <option value="" disabled>Select flower type</option>
-                    {flowerTypes.map((f) => (
-                      <option key={f} value={f}>{f}</option>
-                    ))}
-                  </select>
-                </InputField>
-              )}
 
               {/* Reference Image (Optional) */}
               <div className="sm:col-span-2">
