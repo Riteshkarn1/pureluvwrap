@@ -18,7 +18,7 @@ const testimonials = [
   {
     id: 2,
     quote:
-      "PureLuvWrap made my best friend's birthday extra special. The mixed pastel bouquet was even more beautiful in person than in the photos. It lasted over two weeks! The wrapping was so pretty I almost didn't want to open it.",
+      "PureLuvWrap made my best friend's birthday extra special. The mixed pastel bouquet was even more beautiful in person than in the photos. The wrapping is so pretty I almost didn't want to open it.",
     name: "Simran Kaur",
     location: "Model Town, Jalandhar",
     occasion: "Birthday",
@@ -26,7 +26,7 @@ const testimonials = [
   {
     id: 3,
     quote:
-      "I chose PureLuvWrap for my bridal bouquet and I have zero regrets. They listened to every little detail I described over WhatsApp and crafted something beyond my dreams. My photos are absolutely magical because of those flowers.",
+      "I chose PureLuvWrap for my bridal gift and I have zero regrets. They listened to every little detail I described over WhatsApp and crafted something beyond my dreams. My photos are absolutely magical because of that bouquet.",
     name: "Manpreet Dhillon",
     location: "Phagwara, Punjab",
     occasion: "Wedding",

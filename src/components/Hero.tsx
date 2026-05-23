@@ -44,7 +44,7 @@ const slides = [
     heading1: "Your Memories,",
     heading2: "Beautifully",
     heading3: "Wrapped.",
-    subtext: "Dried flowers + polaroid photos — a gift they'll keep forever",
+    subtext: "Your favourite photos wrapped in a beautiful bouquet — a gift they'll keep forever",
     image: "/hero-photobouquets.png",
   },
   {

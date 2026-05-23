@@ -29,7 +29,7 @@ const collectionsData = [
   {
     id: "photo-bouquets",
     name: "Photo Bouquets",
-    desc: "Dried flowers + polaroid photos — a gift they'll keep forever",
+    desc: "Your photos wrapped beautifully — a gift they'll treasure forever",
     image: "/hero-photobouquets.png",
     colSpan: "md:col-span-3",
   },
