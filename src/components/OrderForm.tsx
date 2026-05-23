@@ -43,14 +43,13 @@ const budgets = [
 ];
 
 const flowerTypes = [
-  "🌸 Natural Flowers",
+  "🌸 ",
   "🎀 Artificial Flowers",
   "🌸🎀 Both (Mix)",
 ];
 
 const bouquetTypes = [
   "🌸 Flower Bouquet (Artificial)",
-  "🌿 Flower Bouquet (Natural)",
   "📸 Photo Bouquet (with Polaroids)",
   "🧸 Figurine / Clay Bouquet",
   "🍬 Candy Bouquet",
@@ -120,10 +119,9 @@ function InputField({
 }
 
 const getInputClass = (hasError: boolean) =>
-  `w-full px-4 py-3 rounded-xl border bg-white font-dm text-sm text-brand-text placeholder:text-brand-muted/60 focus:outline-none focus:ring-2 transition-all duration-300 ${
-    hasError
-      ? "border-[#ef4444] focus:ring-[#ef4444]/40 focus:border-[#ef4444]"
-      : "border-brand-rose-light focus:ring-brand-rose/40 focus:border-brand-rose"
+  `w-full px-4 py-3 rounded-xl border bg-white font-dm text-sm text-brand-text placeholder:text-brand-muted/60 focus:outline-none focus:ring-2 transition-all duration-300 ${hasError
+    ? "border-[#ef4444] focus:ring-[#ef4444]/40 focus:border-[#ef4444]"
+    : "border-brand-rose-light focus:ring-brand-rose/40 focus:border-brand-rose"
   }`;
 
 export default function OrderForm() {
@@ -161,7 +159,7 @@ export default function OrderForm() {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
     if (!file || !file.type.startsWith("image/")) return;
-    
+
     if (file.size > 5 * 1024 * 1024) {
       setImageError("Image must be under 5MB");
       return;
@@ -201,7 +199,6 @@ export default function OrderForm() {
 
   const showFlowerType = [
     "🌸 Flower Bouquet (Artificial)",
-    "🌿 Flower Bouquet (Natural)",
     "📸 Photo Bouquet (with Polaroids)",
   ].includes(form.bouquetType);
 
@@ -291,8 +288,8 @@ export default function OrderForm() {
         form.budget ? `Budget: ${form.budget}` : null,
         form.date ? `Delivery Date: ${form.date}` : null,
         showFlowerType && form.flowerType ? `Flower Type: ${stripEmojis(form.flowerType)}` : null,
-        referenceImage 
-          ? "Reference Image: I have sent a reference image via email." 
+        referenceImage
+          ? "Reference Image: I have sent a reference image via email."
           : null,
         form.message.trim() ? `Message: ${form.message.trim()}` : null,
       ]
@@ -529,8 +526,8 @@ export default function OrderForm() {
                     Share a photo for inspiration — a design you love, a colour combination, anything that helps us understand your vision.
                   </span>
                 </div>
-                
-                <div 
+
+                <div
                   className={`relative w-full rounded-[12px] border-[1.5px] border-dashed border-[#C9727A] bg-[#FDF8F6] hover:bg-[#FAF0EE] hover:border-solid transition-all cursor-pointer flex flex-col items-center justify-center p-[24px] ${imageError ? 'border-red-500' : ''}`}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
@@ -543,18 +540,18 @@ export default function OrderForm() {
                     onChange={handleImageChange}
                     className="hidden"
                   />
-                  
+
                   {imagePreview ? (
                     <div className="flex flex-col items-center w-full relative">
-                      <img 
-                        src={imagePreview} 
-                        alt="Reference Preview" 
+                      <img
+                        src={imagePreview}
+                        alt="Reference Preview"
                         className="max-h-[120px] object-contain rounded-md"
                       />
                       <span className="font-dm text-[12px] text-[#6B6B6B] mt-2 truncate max-w-[200px]">
                         {referenceImage?.name}
                       </span>
-                      <button 
+                      <button
                         type="button"
                         onClick={clearImage}
                         className="mt-3 text-[#C9727A] font-dm text-[12px] hover:underline"
@@ -608,7 +605,7 @@ export default function OrderForm() {
             <div className="mt-8 relative">
               {submitError && (
                 <div className="absolute -top-12 left-0 right-0 mx-auto w-max bg-red-500 text-white text-xs px-4 py-2 rounded-lg shadow-lg z-10 animate-fade-in text-center">
-                  Email failed but your WhatsApp message was sent.<br/>
+                  Email failed but your WhatsApp message was sent.<br />
                   Please share your reference image directly in the chat.
                 </div>
               )}
@@ -616,13 +613,12 @@ export default function OrderForm() {
                 type="submit"
                 id="order-submit-btn"
                 disabled={isSubmitting || submitSuccess}
-                className={`w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-dm font-semibold text-base transition-all duration-300 ${
-                  submitSuccess 
+                className={`w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-dm font-semibold text-base transition-all duration-300 ${submitSuccess
                     ? "bg-[#22c55e] text-white cursor-default"
                     : isSubmitting
-                    ? "bg-brand-rose text-white opacity-80 cursor-not-allowed"
-                    : "bg-brand-rose text-white hover:bg-brand-burgundy hover:shadow-rose hover:scale-[1.02] active:scale-100"
-                }`}
+                      ? "bg-brand-rose text-white opacity-80 cursor-not-allowed"
+                      : "bg-brand-rose text-white hover:bg-brand-burgundy hover:shadow-rose hover:scale-[1.02] active:scale-100"
+                  }`}
               >
                 {isSubmitting ? (
                   <>
@@ -654,3 +650,6 @@ export default function OrderForm() {
     </section>
   );
 }
+
+
+
